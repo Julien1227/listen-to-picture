@@ -1,0 +1,73 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.use-svg {
+    display: none;
+}
+
+input, .btn {
+    padding: 0.5rem;
+    border: 1px solid $black !important;
+    border-radius: 5px;
+}
+
+.btn {
+    cursor: pointer;
+    padding: 1rem;
+    &:active {
+        background-color: $black;
+        color: $white;
+    }
+}
+
+.mask {
+    overflow: hidden;
+    width: 100%;
+    max-width: 500px;
+    height: 30vh;
+    border-radius: 10px;
+    margin: 2rem 0;
+    .img {
+        object-fit: cover;
+        object-position: center;
+        height: 100%;
+        width: 100% ;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+
+    #imgInput {
+        margin-top: 0.5rem;
+    }
+}
+
+.color-list {
+    margin-top: 2rem;
+    & .color {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        border-radius: 1000px;
+
+        margin-right: 1rem;
+        &:last-child {
+            margin-right: inherit;
+        }
+    }
+}
+
+
+@media(min-width: 550px) {
+    .btn:hover {
+        background-color: $black;
+        color: $white;
+    }
+}
