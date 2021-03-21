@@ -45,16 +45,21 @@ input, .btn {
     max-width: 500px;
 
     #imgInput {
+        font-size: $size-text;
         margin-top: 0.5rem;
     }
 }
 
 .color-list {
+    display: flex;
+    justify-self: center;
+
     margin-top: 2rem;
+    
     & .color {
         display: inline-block;
-        width: 80px;
-        height: 80px;
+        width: 30px;
+        height: 30px;
         border-radius: 1000px;
 
         margin-right: 1rem;
@@ -69,5 +74,12 @@ input, .btn {
     .btn:hover {
         background-color: $black;
         color: $white;
+    }
+
+    .color-list {
+        & .color {
+            width: 80px;
+            height: 80px;
+        }
     }
 }
