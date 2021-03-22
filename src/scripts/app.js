@@ -65,10 +65,10 @@ goBtn.addEventListener('click', function () {
             li.style.backgroundColor = colors[color].getHex();
             ul.appendChild(li);
             
-            //Récupère les couleurs RGB dans un tableau - pour la fréquence
+            //Récupère les couleurs RGB - pour la fréquence
             let rgbColor = colors[color].getRgb();
         
-            //Récupère les couleurs HSL dans un tableau (getHsl donne des valeurs inutilisable) - pour le gain
+            //Récupère les couleurs HSL (getHsl donne des valeurs inutilisable) - pour le gain
             let hslColor = RGBToHSL(rgbColor[0], rgbColor[1], rgbColor[2]);
             
             //Récupère une fréquence pour chaque couleurs
