@@ -5,7 +5,6 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var context = new AudioContext();
 var myBuffer;
 
-
 var request = new XMLHttpRequest();
 
 var o = context.createOscillator();
@@ -18,6 +17,7 @@ o.connect(g);
 o.type = "triangle";
 g.connect(context.destination);
 
+//Slider de vitesse
 var speed = 250;
 const speedInput = document.getElementById('speed');
 const speedInputValue = document.getElementById('speed-span');
@@ -26,6 +26,7 @@ speedInput.addEventListener('input', (e) => {
     speedInputValue.innerHTML = speedInput.value * -1;
 })
 
+//Type de son joué
 var oType = "triangle";
 const oTypeInput = document.getElementById('oType');
 oTypeInput.addEventListener('change', (e) => {
@@ -52,10 +53,8 @@ goBtn.addEventListener('click', function () {
     var vibrant = new Vibrant(img);
     var colors = vibrant.swatches();
 
-    const rgbColors = [],
-      hslColors = [],
-      gainValues = [],
-      frqs = [];
+    const gainValues = [],
+          frqs = [];
 
     for (var color in colors){
         if (colors.hasOwnProperty(color) && colors[color]){
@@ -68,11 +67,9 @@ goBtn.addEventListener('click', function () {
             
             //Récupère les couleurs RGB dans un tableau - pour la fréquence
             let rgbColor = colors[color].getRgb();
-            rgbColors.push(rgbColor);
-            
+        
             //Récupère les couleurs HSL dans un tableau (getHsl donne des valeurs inutilisable) - pour le gain
             let hslColor = RGBToHSL(rgbColor[0], rgbColor[1], rgbColor[2]);
-            hslColors.push(hslColor);
             
             //Récupère une fréquence pour chaque couleurs
             let frq = Math.round((rgbColor[0]*1 + rgbColor[1]*1.7 + rgbColor[2]*0.3) * 100) / 100;
