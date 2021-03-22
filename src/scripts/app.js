@@ -5,13 +5,6 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var context = new AudioContext();
 var myBuffer;
 
-var speed = 250;
-const speedInput = document.getElementById('speed');
-const speedInputValue = document.getElementById('speed-span');
-speedInput.addEventListener('input', (e) => {
-    speed = speedInput.value * -1;
-    speedInputValue.innerHTML = speedInput.value * -1;
-})
 
 var request = new XMLHttpRequest();
 
@@ -24,6 +17,21 @@ g.gain.value = 0;
 o.connect(g);
 o.type = "triangle";
 g.connect(context.destination);
+
+var speed = 250;
+const speedInput = document.getElementById('speed');
+const speedInputValue = document.getElementById('speed-span');
+speedInput.addEventListener('input', (e) => {
+    speed = speedInput.value * -1;
+    speedInputValue.innerHTML = speedInput.value * -1;
+})
+
+var oType = "triangle";
+const oTypeInput = document.getElementById('oType');
+oTypeInput.addEventListener('change', (e) => {
+    oType = oTypeInput.value;
+    o.type = oType;
+})
 
 require('../scripts/vibrant.js');
 require("node-vibrant");
@@ -67,7 +75,7 @@ goBtn.addEventListener('click', function () {
             hslColors.push(hslColor);
             
             //Récupère une fréquence pour chaque couleurs
-            let frq = 100 + Math.round((rgbColor[0]*1 + rgbColor[1]*1.7 + rgbColor[2]*0.3) * 100) / 100;
+            let frq = Math.round((rgbColor[0]*1 + rgbColor[1]*1.7 + rgbColor[2]*0.3) * 100) / 100;
             frqs.push(frq);
             
             //crée et récupère un gain

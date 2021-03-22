@@ -18,11 +18,20 @@
 
     <form class="form">
       <div class="form-feild">
-        <label>Entrez le lien d'une image:</label>
+        <label>Choisissez une image:</label>
         <input id="imgInput" type="file" multiple="false" accept=".png, .jpg, .jpeg">
       </div>
       <div class="form-feild">
-        <label>Jouer la note pendant: <span id="speed-span">250</span>ms</label>
+        <label>Type de fréquence: <span id="oType-span">triangle</span></label>
+        <select class="btn" name="oType" value="triangle" id="oType">
+          <option value="triangle">triangle</option>
+          <option value="sine">sine</option>
+          <option value="square">square</option>
+          <option value="sawtooth">sawtooth</option>
+        </select>
+      </div>
+      <div class="form-feild">
+        <label>Temps de jeux de chaque couleur: <span id="speed-span">250</span>ms</label>
         <input id="speed" type="range" min="-500" max="-50">
       </div>
     </form>
@@ -31,7 +40,7 @@
       <img class="img" src="assets/images/img.jpg" alt="Image test">
     </div>
 
-    <button id="goBtn" class="btn">Générer la son</button>
+    <button id="goBtn" class="btn">Générer la mélodie</button>
     <ul class="color-list">
     </ul>
   </div>
