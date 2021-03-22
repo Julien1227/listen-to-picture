@@ -1,3 +1,8 @@
+@keyframes fade-in {
+    from{margin: 0 1rem; opacity: 0;}
+    to{margin: 0 0.5rem; opacity: 1;}
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -42,26 +47,38 @@ input, .btn {
 .form {
     display: flex;
     flex-direction: column;
-    max-width: 500px;
+    min-width: 300px;
+    max-width: 100%;
 
     #imgInput {
         font-size: $size-text;
         margin-top: 0.5rem;
+    }
+
+    &-feild {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
+        &:last-child {
+            margin-bottom: inherit;
+        }
     }
 }
 
 .color-list {
     display: flex;
     justify-self: center;
-
+    
     margin-top: 2rem;
     
     & .color {
+        animation: fade-in 0.5s;
+        
         display: inline-block;
         width: 30px;
         height: 30px;
         border-radius: 1000px;
-
+        
         margin-right: 1rem;
         &:last-child {
             margin-right: inherit;
@@ -69,6 +86,14 @@ input, .btn {
     }
 }
 
+
+// source: https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
+input[type=range] {
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    width: auto; /* Specific width is required for Firefox. */
+    background: $white; /* Otherwise white in Chrome */
+    height: 1px;
+}
 
 @media(min-width: 550px) {
     .btn:hover {
@@ -81,5 +106,9 @@ input, .btn {
             width: 80px;
             height: 80px;
         }
+    }
+
+    .form {
+        max-width: 500px;
     }
 }

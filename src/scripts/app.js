@@ -1,7 +1,17 @@
+"use strict";
+
 //Web audio api
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var context = new AudioContext();
 var myBuffer;
+
+var speed = 250;
+const speedInput = document.getElementById('speed');
+const speedInputValue = document.getElementById('speed-span');
+speedInput.addEventListener('input', (e) => {
+    speed = speedInput.value * -1;
+    speedInputValue.innerHTML = speedInput.value * -1;
+})
 
 var request = new XMLHttpRequest();
 
@@ -15,8 +25,7 @@ o.connect(g);
 o.type = "triangle";
 g.connect(context.destination);
 
-
-require('../scripts/vibrant.js')
+require('../scripts/vibrant.js');
 require("node-vibrant");
 
 const imgInput = document.getElementById("imgInput"),
@@ -33,24 +42,24 @@ imgInput.addEventListener('change', (e) => {
 goBtn.addEventListener('click', function () {
     ul.innerHTML = "";
     var vibrant = new Vibrant(img);
-    var swatches = vibrant.swatches();
+    var colors = vibrant.swatches();
 
     const rgbColors = [],
       hslColors = [],
       gainValues = [],
       frqs = [];
 
-    for (var swatch in swatches){
-        if (swatches.hasOwnProperty(swatch) && swatches[swatch]){
+    for (var color in colors){
+        if (colors.hasOwnProperty(color) && colors[color]){
             
             //Affiche la couleur dans le html
             var li = document.createElement('li');
             li.classList.add('color');
-            li.style.backgroundColor = swatches[swatch].getHex();
+            li.style.backgroundColor = colors[color].getHex();
             ul.appendChild(li);
             
             //Récupère les couleurs RGB dans un tableau - pour la fréquence
-            let rgbColor = swatches[swatch].getRgb();
+            let rgbColor = colors[color].getRgb();
             rgbColors.push(rgbColor);
             
             //Récupère les couleurs HSL dans un tableau (getHsl donne des valeurs inutilisable) - pour le gain
@@ -58,7 +67,7 @@ goBtn.addEventListener('click', function () {
             hslColors.push(hslColor);
             
             //Récupère une fréquence pour chaque couleurs
-            let frq = Math.round((rgbColor[0]*1 + rgbColor[1]*1.8 + rgbColor[2]*0.3) * 100) / 100;
+            let frq = 100 + Math.round((rgbColor[0]*1 + rgbColor[1]*1.7 + rgbColor[2]*0.3) * 100) / 100;
             frqs.push(frq);
             
             //crée et récupère un gain
@@ -67,38 +76,40 @@ goBtn.addEventListener('click', function () {
         }
     }
 
-    // A BOUCLER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    g.gain.value = gainValues[0];
-    o.frequency.value = frqs[0];
-    //console.log(frqs[0]);
+    
+    //Joue chaque paramètre les uns après les autres
+    for(var i = 0; i < frqs.length; i++) {
+        play(i);
+    }
+    
+    function play(i) {
+        setTimeout(function() {
+            o.frequency.value = frqs[i];
+            g.gain.value = gainValues[i];
+        }, i*speed);
+    }
+    
+    //Les rejoue à l'envers pour deux fois plus de plaisir  
+    setTimeout(function() {
+        frqs.reverse();
+        gainValues.reverse();
+        for(var i = 1; i < frqs.length; i++) {
+            playReverse(i);
+        }
+    }, (frqs.length - 1)*speed);
+    
+    function playReverse(i) {
+        setTimeout(function() {
+            o.frequency.value = frqs[i];
+            g.gain.value = gainValues[i];
+        }, i*speed);
+    }
 
-    setTimeout(() => {
-        o.frequency.value = frqs[1];
-        g.gain.value = gainValues[1];
-        //console.log(frqs[1]);
-    }, 250);
-
-    setTimeout(() => {
-        o.frequency.value = frqs[2];
-        g.gain.value = gainValues[2];
-        //console.log(frqs[2]);
-    }, 500);
-
-    setTimeout(() => {
-        o.frequency.value = frqs[3];
-        g.gain.value = gainValues[3];
-        //console.log(frqs[3]);
-    }, 750);
-
-    setTimeout(() => {
-        o.frequency.value = frqs[4];
-        g.gain.value = gainValues[4];
-        //console.log(frqs[4]);
-    }, 1000);
-
-    setTimeout(() => {
+    //Arrête le son après que les couleurs aient joué deux fois
+    setTimeout(function() {
+        o.frequency.value = 0;
         g.gain.value = 0;
-    }, 1250);
+    }, ((frqs.length*2)-1)*speed);
 });
 
 // https://css-tricks.com/converting-color-spaces-in-javascript/
